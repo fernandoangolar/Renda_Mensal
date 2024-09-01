@@ -55,6 +55,34 @@ public class TransactionServiceImpl implements TransactionService {
         return modelMapper.map(transaction, TransactionDTO.class);
     }
 
+    @Override
+    public TransactionDTO update(TransactionDTO transactionDTO, Integer transaction_id) {
+
+        Transaction transaction = transactionRepository.findById(transaction_id)
+                .orElseThrow( () -> new ResourceEntityNotFoundException(
+                        String.format("Transaction com o id %d não encontrado", transaction_id)
+                ));
+
+        modelMapper.map(transactionDTO, transaction);
+
+        if ( transactionDTO.getCategory() != null ) {
+
+            Integer categoryId = transactionDTO.getCategory().getId();
+            if ( categoryId != null ) {
+                Category category = categoryRepository.findById(categoryId)
+                        .orElseThrow( () -> new ResourceEntityNotFoundException(
+                                String.format("Category com o id %d não encontrado", categoryId)
+                        ));
+
+                transaction.setCategory(category);
+            }
+        }
+
+        Transaction updateTransaction = transactionRepository.save(transaction);
+
+        return modelMapper.map(updateTransaction, TransactionDTO.class);
+    }
+
     private void verificarCategoriaAtiva(Category category) {
         if (!"ATIVA".equalsIgnoreCase(category.getStatus())) {
             throw new ResourceInativoExcepton(String.format("Categoria com o id %d está inativa", category.getId()));

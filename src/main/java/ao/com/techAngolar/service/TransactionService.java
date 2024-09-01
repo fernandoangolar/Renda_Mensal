@@ -7,4 +7,5 @@ public interface TransactionService {
 
     TransactionDTO save(TransactionDTO transactionDTO);
     TransactionDTO findById(Integer transaction_id);
+    TransactionDTO update(TransactionDTO transactionDTO, Integer transaction_id);
 }
