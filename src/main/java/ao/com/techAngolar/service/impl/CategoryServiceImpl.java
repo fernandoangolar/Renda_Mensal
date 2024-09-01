@@ -30,7 +30,7 @@ public class CategoryServiceImpl  implements CategoryService {
          Optional<Category> categoryPresent = categoryRepository.findByName(categoryDTO.getName());
 
         if ( categoryPresent.isPresent() ) {
-            throw new ResourceJaExistenteException("Category com o nome" + categoryDTO.getName() + " já existe");
+            throw new ResourceJaExistenteException("Category com o nome " + categoryDTO.getName() + " já existe");
         }
 
         Category category = modelMapper.map(categoryDTO, Category.class);
@@ -44,7 +44,7 @@ public class CategoryServiceImpl  implements CategoryService {
 
         Category objCategory = checkCategoryIspresent(category_id);
 
-       checkIfCategoryIsActive(objCategory, category_id);
+        checkIfCategoryIsActive(objCategory, category_id);
 
         return modelMapper.map(objCategory, CategoryDTO.class);
 

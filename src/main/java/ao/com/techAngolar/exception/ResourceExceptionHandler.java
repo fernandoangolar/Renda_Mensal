@@ -61,4 +61,20 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status)
                 .body(error);
     }
+
+    @ExceptionHandler(ResourceJaExistenteException.class)
+    public ResponseEntity<StardarError> entityInative(ResourceJaExistenteException ex, HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        StardarError error = new StardarError();
+        error.setTimestamp(Instant.now());
+        error.setStatus(status.value());
+        error.setError("Entity Existente");
+        error.setMessage(ex.getMessage());
+        error.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(status)
+                .body(error);
+    }
 }

@@ -25,17 +25,11 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@Valid @RequestBody CategoryDTO categoryDTO) {
-        try {
+    public ResponseEntity<CategoryDTO> save(@Valid @RequestBody CategoryDTO categoryDTO) {
+
             CategoryDTO categorySave = categoryService.save(categoryDTO);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(categorySave);
-        } catch (ResourceJaExistenteException ex) {
-            return ResponseEntity.status(
-                    HttpStatus.CONFLICT)
-                    .body(ex.getMessage());
-        }
-
     }
     
     @PutMapping(value = "/{category_id}")
