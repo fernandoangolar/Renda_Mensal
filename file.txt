@@ -1,0 +1,116 @@
+Objectivo do projeto ========>>>>>
+
+Casos de Uso do Sistema
+
+Aqui estão os principais casos de uso do sistema:
+
+***** Registrar Usuário: O usuário deve ser capaz de criar uma conta no sistema.
+***** Login do Usuário: Autenticar-se no sistema.
+***** Registrar Transação: Adicionar uma nova entrada ou saída de dinheiro.
+***** Editar Transação: Modificar uma transação existente.
+***** Excluir Transação: Remover uma transação.
+***** Visualizar Transações: Exibir todas as transações para um determinado período.
+***** Filtrar Transações: Filtrar transações por categoria, tipo (entrada/saída), ou data.
+***** Gerar Relatório Mensal: Calcular o saldo mensal com base nas transações registradas.
+***** Definir Metas de Economia: Estabelecer uma meta de economia para o período.
+***** Visualizar Progresso da Meta: Acompanhar o progresso em relação às metas de economia.
+***** Configurar Alertas de Gastos: Configurar limites de gastos para categorias específicas e receber notificações.
+
+Filtros a Serem Aplicados
+
+Filtros são necessários para organizar e visualizar os dados de maneira eficiente:
+
+***** Filtrar Transações por Data: Permitir que o usuário veja transações em um período específico (ex.: último mês, ano atual, data personalizada).
+***** Filtrar Transações por Tipo: Mostrar apenas entradas ou apenas saídas.
+***** Filtrar Transações por Categoria: Exibir transações de uma categoria específica (ex.: alimentação, transporte).
+***** Filtrar por Valor: Mostrar transações acima ou abaixo de um determinado valor.
+***** Ordenar Transações: Permitir que o usuário ordene as transações por data, valor, ou categoria.
+
+Usuário (Usuario):
+
+Atributos: id, nome, email, senha, metaEconomia.
+Associações: Um usuário pode ter várias transações e uma meta de economia.
+Relacionamento: Um-para-muitos com Transacao; um-para-um com MetaEconomia.
+
+Transação (Transacao):
+
+Atributos: id, tipo (entrada/saída), valor, data, categoria, descricao, usuarioId.
+Associações: Cada transação pertence a um usuário e a uma categoria.
+Relacionamento: Muitos-para-um com Usuario; muitos-para-um com Categoria.
+
+            Regra de negocio de transação para Salvar =========>>>>>
+            * Valor da Transação Não Pode Ser Negativo : Antes de salvar, o sistema deve verificar se o valor fornecido é maior que zero.
+            * Data da Transação Não Pode Ser Futura : Comparar a data fornecida com a data atual e garantir que não seja posterior.
+            * Transação Deve Estar Associada a um Usuário Válido : Verificar se o ID do usuário fornecido na transação corresponde a um usuário existente.
+            * Transação Deve Estar Associada a uma Categoria Válida : Verificar se a categoria fornecida é válida e existe no sistema. Isso pode ser feito consultando o
+            repositório de categorias antes de salvar.
+            * Descrição da Transação Opcional, mas Limitada : Se uma descrição for fornecida, verificar seu comprimento antes de salvar.
+            * Tipo de Transação Deve Ser Especificado : Certificar-se de que o tipo de transação seja um dos valores permitidos (por exemplo, "ENTRADA" ou "SAIDA").
+            *  Limite de Gastos por Categoria : Verificar os gastos acumulados para a categoria da transação e comparar com o limite definido, se aplicável.
+            * Verificar Conformidade com Meta de Economia : Calcular o impacto da transação na meta de economia atual e alertar o usuário se a meta estiver em risco.
+            * Status de Atividade do Usuário : Verificar se o status do usuário está ativo antes de salvar a transação.
+
+            Regra de negocio de transação para Buscar =========>>>>>
+            * Autentique e autorize os usuários adequadamente.
+            * Validar os identificadores das transações e garanta que a transação existe.
+            * Consistencia nos dados sensíveis e garanta a integridade dos dados. (Verifique se a transação e todas as suas associações (como categorias e contas))
+            * Tratar exceções e forneça mensagens claras para ajudar na depuração e uso do sistema.
+            * Proteção de Dados Sensíveis: Garanta que informações sensíveis (como detalhes financeiros) sejam acessadas apenas por usuários autorizados e que não
+            * sejam expostas indevidamente.
+
+            Regra de negocio de transação para Atualizar =========>>>>>
+            * Verificar permissões e autenticação do usuário.
+            * Validar a existência e integridade dos dados da transação.
+            * Garantir que a categoria é válida e ativa antes de associá-la à transação.
+            * Manter um histórico de mudanças para rastreamento e auditoria.
+            * Implementar tratamento de erros e fornecer mensagens claras para ajudar na depuração e uso do sistema.
+
+
+Categoria (Categoria):
+
+Atributos: id, nome, descricao.
+Associações: Pode estar associada a muitas transações.
+Relacionamento: Um-para-muitos com Transacao.
+
+             Regra de negocio de Categoria para Salvar =========>>>>>
+             * Nome da Categoria Único : Antes de salvar uma nova categoria, o sistema deve verificar se já existe uma categoria com o mesmo nome. Se existir, o sistema deve
+             impedir o salvamento e notificar o usuário.
+             * Nome da Categoria Não Pode Ser Vazio ou Nulo : Deve-se usar validação de campo para garantir que o nome da categoria seja fornecido antes de salvar.
+             * Limite de Caracteres no Nome da Categoria : Validar o comprimento do nome da categoria. Se o nome for muito curto ou muito longo, o sistema deve impedir o
+             salvamento e notificar o usuário.
+             * Descrição Opcional, mas com Limite de Caracteres : Validar o comprimento da descrição da categoria.
+             * Categoria Ativa/Inativa : Adicionar um campo de status (ativo/inativo) à categoria e aplicar lógica para evitar associações com categorias inativas.
+             * Verificar Permissões do Usuário : Verificar o papel do usuário antes de permitir operações de criação/edição/remoção de categorias.
+
+             Regra de negocio de Categoria para Buscar =========>>>>>
+             * Existência: Verificar se a categoria solicitada existe antes de retornar os detalhes.
+             * Permissões: Garantir que o usuário tem permissão para acessar a categoria.
+             * Status: Considerar o status da categoria (ativa/inativa) ao buscar.
+             * Integridade: Manter a integridade dos dados retornados sobre a categoria.
+
+             Regra de negocio de Categoria para Buscar =========>>>>>
+             * Existência: Verifique se a categoria existe antes de atualizar.
+             * Nome Único: Garanta que o nome da categoria continue sendo único após a atualização.
+             * Campo Obrigatório: Assegure que o nome e, se aplicável, a descrição não sejam vazios ou nulos.
+             * Limites de Caracteres: Valide o comprimento do nome e da descrição.
+             * Categorias Padrão: Impedimento de alteração de categorias padrão, se aplicável.
+             * Status: Atualize o status da categoria conforme necessário.
+             * Histórico: Considere manter um registro das alterações feitas.
+
+
+
+Meta de Economia (MetaEconomia):
+
+Atributos: id, valorMeta, periodo, statusCumprimento, usuarioId.
+Associações: Relacionada a um usuário.
+Relacionamento: Um-para-um com Usuario.
+
+
+
+
+
+
+
+
+
+
