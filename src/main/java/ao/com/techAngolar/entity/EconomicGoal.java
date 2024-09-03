@@ -19,7 +19,7 @@ public class EconomicGoal {
     private String period;
     private String status;
 
-    private LocalDate startdDate;
+    private LocalDate startDate;
 
     private LocalDate endDate;
 

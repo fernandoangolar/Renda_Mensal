@@ -115,6 +115,21 @@ Relacionamento: Um-para-um com Usuario.
             * Validar as datas de início e fim (se aplicável).
             * Limitar o tamanho da descrição opcional.
 
+            Regra de negocio de Meta Economica paea BUscar   ===========>>>>>
+            Verificação de Existência: Retornar erro 404 Not Found se a MetaEconomia não existir.
+            Validação do Formato do ID: Garantir que o ID seja numérico e válido.
+            Autorização: Validar se o usuário autenticado tem permissão para acessar a meta.
+            Status de Atividade: (Opcional) Considerar apenas metas com status "ativo" para retornos.
+
+            Regra de negocio de Meta Economica paea BUscar   ===========>>>>>
+            Existência: Verificar se a MetaEconomia existe antes de atualizar.
+            Validação do Usuário: Garantir que apenas o proprietário ou um administrador possa atualizar.
+            Validação dos Campos: Validar metaValor, periodo, status, inicioData, fimData e description.
+            Consistência das Datas: inicioData deve ser anterior à fimData.
+            Status de Atividade: Não permitir a atualização de metas inativas.
+
+
+
 
 
 

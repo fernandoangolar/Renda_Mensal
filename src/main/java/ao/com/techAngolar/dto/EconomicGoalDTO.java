@@ -20,11 +20,11 @@ public class EconomicGoalDTO {
     private String period;
 
     @NotNull(message = "O status da meta economica é obrigatório")
-    @Pattern(regexp = "EM PROGRESSO", message = "O status da Meta economica tem que ser EM PROGRESSO")
+    @Pattern(regexp = "EM PROGRESSO|INATIVA|FINALIZADA", message = "O status da Meta economica tem que ser EM PROGRESSO")
     private String status;
 
     @NotNull(message = "A data de inicio é obrigatória")
-    private LocalDate startdDate;
+    private LocalDate startDate;
 
     @NotNull(message = "A data final é obrigatória")
     private LocalDate endDate;

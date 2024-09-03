@@ -77,4 +77,20 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status)
                 .body(error);
     }
+
+    @ExceptionHandler(InvalidEconomicGoalDateException.class)
+    public ResponseEntity<StardarError> invalidDate(InvalidEconomicGoalDateException ex, HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        StardarError error = new StardarError();
+        error.setTimestamp(Instant.now());
+        error.setStatus(status.value());
+        error.setError("Data fora do escopo");
+        error.setMessage(ex.getMessage());
+        error.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(status)
+                .body(error);
+    }
 }
