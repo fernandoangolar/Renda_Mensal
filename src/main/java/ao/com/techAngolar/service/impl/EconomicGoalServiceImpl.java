@@ -74,7 +74,7 @@ public class EconomicGoalServiceImpl implements EconomicGoalService {
 
     private void validateDate(LocalDate startDate, LocalDate endDate) {
         LocalDate today = LocalDate.now();
-        System.out.println(today);
+
         if ( startDate != null && startDate.isBefore(today) ) {
             throw new InvalidEconomicGoalDateException("A data de início não pode ser no passado. ");
         }

@@ -32,4 +32,14 @@ public class EconomicGoalController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(economicGoalDTO);
     }
+
+    @PutMapping("/{economic_id}")
+    public ResponseEntity<EconomicGoalDTO> update(@Valid @RequestBody EconomicGoalDTO economicGoalDTO, @PathVariable Integer economic_id) {
+
+        economicGoalDTO = economicGoalService.update(economicGoalDTO, economic_id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(economicGoalDTO);
+
+    }
 }
