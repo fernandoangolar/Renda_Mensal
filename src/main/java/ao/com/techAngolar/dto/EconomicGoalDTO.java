@@ -20,11 +20,13 @@ public class EconomicGoalDTO {
     private String period;
 
     @NotNull(message = "O status da meta economica é obrigatório")
-    @Pattern(regexp = "EM PROGRESSO|FINALIZADO", message = "O status da Meta economica tem que ser EM PROGRESSO ou FINALIZADO")
+    @Pattern(regexp = "EM PROGRESSO", message = "O status da Meta economica tem que ser EM PROGRESSO")
     private String status;
 
+    @NotNull(message = "A data de inicio é obrigatória")
     private LocalDate startdDate;
 
+    @NotNull(message = "A data final é obrigatória")
     private LocalDate endDate;
 
     @Size(max = 200, message = "A descrição da categoria não pode ter mais de 200 caracteres.")

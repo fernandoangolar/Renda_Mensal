@@ -88,7 +88,7 @@ Relacionamento: Um-para-muitos com Transacao.
              * Status: Considerar o status da categoria (ativa/inativa) ao buscar.
              * Integridade: Manter a integridade dos dados retornados sobre a categoria.
 
-             Regra de negocio de Categoria para Buscar =========>>>>>
+             Regra de negocio de Categoria para Atualizar =========>>>>>
              * Existência: Verifique se a categoria existe antes de atualizar.
              * Nome Único: Garanta que o nome da categoria continue sendo único após a atualização.
              * Campo Obrigatório: Assegure que o nome e, se aplicável, a descrição não sejam vazios ou nulos.
@@ -104,6 +104,16 @@ Meta de Economia (MetaEconomia):
 Atributos: id, valorMeta, periodo, statusCumprimento, usuarioId.
 Associações: Relacionada a um usuário.
 Relacionamento: Um-para-um com Usuario.
+
+
+            Regra de negocio de Meta Economica para Salvar ===========>>>>>
+            * O valor da meta deve ser positivo.
+            * O período da meta deve ser especificado e válido.
+            * A meta deve estar associada a um usuário existente.
+            * Não deve haver múltiplas metas para o mesmo período e usuário.
+            * O status inicial da meta deve ser "Em progresso".
+            * Validar as datas de início e fim (se aplicável).
+            * Limitar o tamanho da descrição opcional.
 
 
 
