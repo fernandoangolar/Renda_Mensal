@@ -33,11 +33,17 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     );
 
     // Filtrar transações com o valor acima de um determinado valor
+//    @Query("SELECT t FROM Transaction t WHERE t.valor > :minValue")
+//    List<Transaction> findByMinValue(@Param("minValue") Double minValue);
     List<Transaction> findByValorGreaterThan(Double minValue);
 
     // Filtrar transações com valor abaixo de um determinado valor
+    @Query("SELECT t FROM Transaction t WHERE t.valor < :maxValue")
+    List<Transaction> findByMaxValue(@Param("maxValue") Double maxValue);
     List<Transaction> findByValorLessThan(Double maxValue);
 
     // Filter transaoes com valor entre dois valores
+//    @Query("SELECT t FROM Transaction t WHERE t.valor BETWEEN :minValue AND :maxValue")
+//    List<Transaction> findByValueRange(@Param("minValue") Double minValue, @Param("maxValue") Double maxValue);
     List<Transaction> findByValorBetween(Double minvalor, Double maxvalor);
 }
