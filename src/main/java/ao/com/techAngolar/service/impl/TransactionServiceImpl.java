@@ -11,7 +11,12 @@ import ao.com.techAngolar.repository.TransactionRepository;
 import ao.com.techAngolar.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -83,12 +88,66 @@ public class TransactionServiceImpl implements TransactionService {
         return modelMapper.map(updateTransaction, TransactionDTO.class);
     }
 
+    public List<TransactionDTO> filterTransactions(String categoryName, String type, LocalDate startDate, LocalDate endDate) {
+        List<Transaction> transactions = transactionRepository.filterTransctions(categoryName, type, startDate, endDate);
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
+    public List<TransactionDTO> findByCategoryName(String categoryName) {
+        List<Transaction> transactions = transactionRepository.findByCategoryName(categoryName);
+
+        if ( transactions.isEmpty() ) {
+            throw new ResourceEntityNotFoundException(
+                    String.format("Transaction com categoria %s não foi encontrado", categoryName));
+        }
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
+    public List<TransactionDTO> findByType(String type) {
+        List<Transaction> transactions = transactionRepository.findByType(type);
+
+        if ( transactions.isEmpty() ) {
+            throw new ResourceEntityNotFoundException(
+                    String.format("Transaction com o tipo %s não foi encontrado", type));
+        }
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
+    public List<TransactionDTO> findByDateBetween(LocalDate startDate, LocalDate endDate) {
+        List<Transaction> transactions = transactionRepository.findByDateBetween(startDate, endDate);
+
+        if ( transactions.isEmpty() ) {
+            throw new ResourceEntityNotFoundException(
+                    String.format("Transaction não se faz presete, entre a data %d e %d", startDate, endDate));
+        }
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
     private void verificarCategoriaAtiva(Category category) {
         if (!"ATIVA".equalsIgnoreCase(category.getStatus())) {
             throw new ResourceInativoExcepton(String.format("Categoria com o id %d está inativa", category.getId()));
         }
     }
-
 
     private void verificarTransacaoExistente(TransactionDTO transactionDTO, Category category) {
         boolean existsTransaction = transactionRepository.existsByValorAndDateAndCategoryAndType(

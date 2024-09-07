@@ -2,12 +2,9 @@ package ao.com.techAngolar.dto;
 
 import ao.com.techAngolar.entity.Category;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class TransactionDTO {
@@ -25,7 +22,7 @@ public class TransactionDTO {
 
     @NotNull(message = "A data da transação é obrigatória.")
     @PastOrPresent(message = "A data da transação não pode ser futura.")
-    private Date date;
+    private LocalDate date;
 
     @NotNull(message = "A categoria da transação é obrigatória.")
     private Category category;

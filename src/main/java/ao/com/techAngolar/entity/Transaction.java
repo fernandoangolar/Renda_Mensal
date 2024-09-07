@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,7 +18,7 @@ public class Transaction {
     private String type;
     private Double valor;
     private String description;
-    private Date date;
+    private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
