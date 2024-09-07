@@ -25,6 +25,12 @@ import java.util.stream.Collectors;
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
+    private LocalDate now = LocalDate.now();
+    private LocalDate fistDayOfLastMonth;
+    private LocalDate lastDayOfLastMonth;
+    private LocalDate firstDayOfYear;
+    private LocalDate lastDayOfYear;
+
     @Autowired
     private TransactionRepository transactionRepository;
 
@@ -142,6 +148,37 @@ public class TransactionServiceImpl implements TransactionService {
 
         List<TransactionDTO> transactionDTOS = transactions.stream()
                 .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
+    // Filtrar Transações do último mês
+    public List<TransactionDTO> filterLastMonth() {
+
+        fistDayOfLastMonth = now.withDayOfMonth(1).withDayOfMonth(1);
+        lastDayOfLastMonth = now.withDayOfMonth(1).minusMonths(1);
+
+        List<Transaction> byDateBetween = transactionRepository.findByDateBetween(firstDayOfYear, lastDayOfLastMonth);
+
+        List<TransactionDTO> transactionDTOS = byDateBetween.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+
+    }
+
+    // Filtrar Transações do ano atual
+    public List<TransactionDTO> filterCurrentYear() {
+
+        firstDayOfYear = now.withDayOfYear(1);
+        lastDayOfYear = now.withDayOfYear(now.lengthOfYear());
+
+        List<Transaction> byDateBetween = transactionRepository.findByDateBetween(firstDayOfYear, lastDayOfYear);
+
+        List<TransactionDTO> transactionDTOS  = byDateBetween.stream()
+                .map( transaction -> modelMapper.map(transaction, TransactionDTO.class) )
                 .collect(Collectors.toList());
 
         return transactionDTOS;

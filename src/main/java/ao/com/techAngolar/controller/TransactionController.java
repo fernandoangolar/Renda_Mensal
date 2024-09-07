@@ -142,6 +142,24 @@ public class TransactionController {
                 .body(transactionDTOS);
     }
 
+    @GetMapping("/filter/last-month")
+    public ResponseEntity<List<TransactionDTO>> filterLastMonth() {
+
+        List<TransactionDTO> transactionDTOS = transactionServiceImpl.filterLastMonth();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionDTOS);
+    }
+
+    @GetMapping("/filter/current-year")
+    public ResponseEntity<List<TransactionDTO>> filterCurrentYear() {
+
+        List<TransactionDTO> transactionDTOS = transactionServiceImpl.filterCurrentYear();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionDTOS);
+    }
+
     @PutMapping("/{transaction_id}")
     public ResponseEntity<TransactionDTO> update(@PathVariable Integer transaction_id, @Valid @RequestBody TransactionDTO transactionDTO) {
 
