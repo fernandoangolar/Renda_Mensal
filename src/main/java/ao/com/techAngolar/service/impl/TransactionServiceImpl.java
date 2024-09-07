@@ -11,6 +11,7 @@ import ao.com.techAngolar.repository.TransactionRepository;
 import ao.com.techAngolar.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -175,6 +176,26 @@ public class TransactionServiceImpl implements TransactionService {
 
         return transactionDTOS;
     }
+
+
+    // BUsca por SORT
+    public List<TransactionDTO> findAllTransactionsSorted(String sortBy, String direction) {
+
+        Sort.Direction sortDirection = Sort.Direction.fromString(direction);
+        Sort sort = Sort.by(sortDirection, sortBy);
+
+        // retorna a lista de transações ordenadas
+        List<Transaction> transactions = transactionRepository.findAll(sort);
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+
+    }
+
+    // Busca por PAGEABLE
 
     private void verificarCategoriaAtiva(Category category) {
         if (!"ATIVA".equalsIgnoreCase(category.getStatus())) {

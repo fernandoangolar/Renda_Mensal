@@ -2,6 +2,7 @@ package ao.com.techAngolar.repository;
 
 import ao.com.techAngolar.entity.Category;
 import ao.com.techAngolar.entity.Transaction;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -46,4 +47,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 //    @Query("SELECT t FROM Transaction t WHERE t.valor BETWEEN :minValue AND :maxValue")
 //    List<Transaction> findByValueRange(@Param("minValue") Double minValue, @Param("maxValue") Double maxValue);
     List<Transaction> findByValorBetween(Double minvalor, Double maxvalor);
+
+
+    // Método para buscar todas as transações ordenafas por um campo específico
+    List<Transaction> findAll(Sort sort);
 }

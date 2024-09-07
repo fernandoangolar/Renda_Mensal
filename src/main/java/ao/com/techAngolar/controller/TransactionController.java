@@ -34,6 +34,18 @@ public class TransactionController {
                     .body(transactionDTO);
     }
 
+    @GetMapping("/sorted")
+    public ResponseEntity<List<TransactionDTO>> findAllSorted(
+            @RequestParam String sortBy,  // Campo de ordenação (ex.: date, valor, category)
+            @RequestParam String direction // Direção de ordenação (as ou desc)
+    ) {
+
+        List<TransactionDTO> allTransactionsSorted = transactionServiceImpl.findAllTransactionsSorted(sortBy, direction);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(allTransactionsSorted);
+    }
+
     @GetMapping("/{transaction_id}")
     public ResponseEntity<TransactionDTO> findById(@PathVariable Integer transaction_id) {
 
