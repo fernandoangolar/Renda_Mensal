@@ -57,7 +57,7 @@ public class TransactionController {
     }
 
     @GetMapping("/category/{categoryName}")
-    public ResponseEntity<List<TransactionDTO>> getByCategoryName(@PathVariable String categoryName) {
+    public ResponseEntity<List<TransactionDTO>> filterByCategoryName(@PathVariable String categoryName) {
 
         List<TransactionDTO> transactionDTOS = transactionServiceImpl.findByCategoryName(categoryName);
 
@@ -66,7 +66,7 @@ public class TransactionController {
     }
 
     @GetMapping("/type/{type}")
-    public ResponseEntity<List<TransactionDTO>> getByType(@PathVariable String type) {
+    public ResponseEntity<List<TransactionDTO>> filterByType(@PathVariable String type) {
 
         List<TransactionDTO> transactionDTOS = transactionServiceImpl.findByType(type);
 
@@ -75,11 +75,41 @@ public class TransactionController {
     }
 
     @GetMapping("/date")
-    public ResponseEntity<List<TransactionDTO>> getByDateBetween(
+    public ResponseEntity<List<TransactionDTO>> filterByDateBetween(
             @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
         List<TransactionDTO> transactionDTOS = transactionServiceImpl.findByDateBetween(startDate, endDate);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionDTOS);
+    }
+
+    @GetMapping("/filter/minValue")
+    public ResponseEntity<List<TransactionDTO>> filterByMinValue(@RequestParam Double minValue) {
+
+        List<TransactionDTO> transactionDTOS = transactionServiceImpl.filterTransctionsByMinValue(minValue);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionDTOS);
+    }
+
+    @GetMapping("/filter/maxValue")
+    public ResponseEntity<List<TransactionDTO>> filterByMaxValue(@RequestParam Double maxValue) {
+
+        List<TransactionDTO> transactionDTOS = transactionServiceImpl.filterTransctionsByMaxValue(maxValue);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(transactionDTOS);
+    }
+
+    @GetMapping("/filter/valueRange")
+    public ResponseEntity<List<TransactionDTO>> filterByValueRange(
+            @RequestParam Double minValue,
+            @RequestParam Double maxValue
+    ) {
+
+        List<TransactionDTO> transactionDTOS = transactionServiceImpl.filterTransctionsByValueRange(minValue, maxValue);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(transactionDTOS);

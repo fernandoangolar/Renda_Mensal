@@ -143,6 +143,39 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionDTOS;
     }
 
+    public List<TransactionDTO> filterTransctionsByMinValue(Double minValue) {
+
+        List<Transaction> transactions = transactionRepository.findByValorGreaterThan(minValue);
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
+    public List<TransactionDTO> filterTransctionsByMaxValue(Double maxValue) {
+
+        List<Transaction> transactions = transactionRepository.findByValorLessThan(maxValue);
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
+    public  List<TransactionDTO> filterTransctionsByValueRange(Double minValue, Double maxValue) {
+
+        List<Transaction> transactions = transactionRepository.findByValorBetween(minValue, maxValue);
+
+        List<TransactionDTO> transactionDTOS = transactions.stream()
+                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+                .collect(Collectors.toList());
+
+        return transactionDTOS;
+    }
+
     private void verificarCategoriaAtiva(Category category) {
         if (!"ATIVA".equalsIgnoreCase(category.getStatus())) {
             throw new ResourceInativoExcepton(String.format("Categoria com o id %d está inativa", category.getId()));

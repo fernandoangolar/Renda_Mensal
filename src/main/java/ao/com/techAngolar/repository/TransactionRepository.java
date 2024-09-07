@@ -31,4 +31,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+
+    // Filtrar transações com o valor acima de um determinado valor
+    List<Transaction> findByValorGreaterThan(Double minValue);
+
+    // Filtrar transações com valor abaixo de um determinado valor
+    List<Transaction> findByValorLessThan(Double maxValue);
+
+    // Filter transaoes com valor entre dois valores
+    List<Transaction> findByValorBetween(Double minvalor, Double maxvalor);
 }
