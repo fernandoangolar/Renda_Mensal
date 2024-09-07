@@ -11,6 +11,9 @@ import ao.com.techAngolar.repository.TransactionRepository;
 import ao.com.techAngolar.service.TransactionService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -196,6 +199,19 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     // Busca por PAGEABLE
+//    public Page<TransactionDTO> findSortedAndPageable(int page, int size, String sortBy, String direction) {
+//
+//        Sort.Direction sortDirection = Sort.Direction.fromString(direction);
+//        Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, sortBy));
+//
+//        List<Transaction> allPageable = transactionRepository.findAllPageable(pageable);
+//
+//        List<TransactionDTO> transactionDTOS = allPageable.stream()
+//                .map(transaction -> modelMapper.map(transaction, TransactionDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return (Page<TransactionDTO>) transactionDTOS;
+//    }
 
     private void verificarCategoriaAtiva(Category category) {
         if (!"ATIVA".equalsIgnoreCase(category.getStatus())) {

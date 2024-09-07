@@ -2,10 +2,12 @@ package ao.com.techAngolar.repository;
 
 import ao.com.techAngolar.entity.Category;
 import ao.com.techAngolar.entity.Transaction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.w3c.dom.ls.LSInput;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -51,4 +53,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     // Método para buscar todas as transações ordenafas por um campo específico
     List<Transaction> findAll(Sort sort);
+
+
+    // Usando Pageable para suportar paginação e ordenação
+//    List<Transaction> findAllPageable(Pageable pageable);
 }

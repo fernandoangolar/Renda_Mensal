@@ -7,6 +7,7 @@ import ao.com.techAngolar.service.impl.TransactionServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,20 @@ public class TransactionController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(allTransactionsSorted);
     }
+
+//    @GetMapping("/paginated")
+//    public ResponseEntity<Page<TransactionDTO>> findSortedAndPaginated(
+//            @RequestParam int page,
+//            @RequestParam int size,
+//            @RequestParam String sortBy,
+//            @RequestParam String direction
+//    ) {
+//
+//        Page<TransactionDTO> transactionDTOS = transactionServiceImpl.findSortedAndPageable(page, size, sortBy, direction);
+//
+//        return ResponseEntity.status(HttpStatus.OK)
+//                .body(transactionDTOS);
+//    }
 
     @GetMapping("/{transaction_id}")
     public ResponseEntity<TransactionDTO> findById(@PathVariable Integer transaction_id) {
