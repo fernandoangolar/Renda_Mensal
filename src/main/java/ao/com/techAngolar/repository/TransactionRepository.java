@@ -57,4 +57,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     // Usando Pageable para suportar paginação e ordenação
 //    List<Transaction> findAllPageable(Pageable pageable);
+
+    // Buscar todas as trnasações para um determinado mês e ano
+    @Query("SELECT t FROM Transaction t WHERE YEAR(t.date) = :year AND MONTH(t.date) = :month")
+    List<Transaction> findByYearAndMonth(@Param("year") int year, @Param("month") int month);
 }

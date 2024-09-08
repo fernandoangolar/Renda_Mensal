@@ -1,5 +1,6 @@
 package ao.com.techAngolar.service.impl;
 
+import ao.com.techAngolar.dto.MonthlyRepostDTO;
 import ao.com.techAngolar.dto.TransactionDTO;
 import ao.com.techAngolar.entity.Category;
 import ao.com.techAngolar.entity.Transaction;
@@ -232,6 +233,33 @@ public class TransactionServiceImpl implements TransactionService {
                 .collect(Collectors.toList());
 
         return transactionDTOS;
+
+    }
+
+    public MonthlyRepostDTO generateMonthlyReport(int year, int month) {
+
+        List<Transaction> byYearAndMonth = transactionRepository.findByYearAndMonth(year, month);
+
+        double totalEntrada = 0;
+        double totalSaida = 0;
+
+        for ( Transaction transaction : byYearAndMonth ) {
+            if (transaction.getType().equalsIgnoreCase("ENTRADA")) {
+                totalEntrada += transaction.getValor();
+            } else if ( transaction.getType().equalsIgnoreCase("SAIDA")) {
+                totalSaida += transaction.getValor();
+            }
+        };
+
+        double saldoTotal = totalEntrada - totalSaida;
+
+        MonthlyRepostDTO monthlyRepostDTO = new MonthlyRepostDTO();
+        monthlyRepostDTO.setYear(year);
+        monthlyRepostDTO.setMonth(month);
+        monthlyRepostDTO.setEntrada(totalEntrada);
+        monthlyRepostDTO.setSaida(saldoTotal);
+
+        return monthlyRepostDTO;
 
     }
 

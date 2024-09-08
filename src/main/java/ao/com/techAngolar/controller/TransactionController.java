@@ -1,5 +1,6 @@
 package ao.com.techAngolar.controller;
 
+import ao.com.techAngolar.dto.MonthlyRepostDTO;
 import ao.com.techAngolar.dto.TransactionDTO;
 import ao.com.techAngolar.entity.Transaction;
 import ao.com.techAngolar.service.TransactionService;
@@ -158,6 +159,15 @@ public class TransactionController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(transactionDTOS);
+    }
+
+    @GetMapping("/report/monthly")
+    public ResponseEntity<MonthlyRepostDTO> getMonthlyReport(
+            @RequestParam("year") int year,
+            @RequestParam("month") int month) {
+
+        MonthlyRepostDTO monthlyRepostDTO = transactionServiceImpl.generateMonthlyReport(year, month);
+        return ResponseEntity.ok(monthlyRepostDTO);
     }
 
     @PutMapping("/{transaction_id}")
